@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery | Ahmad Nadzrin</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+<style>
+  * { 
+    margin:0; 
+    padding:0; 
+    box-sizing:border-box; 
+    font-family:'Montserrat', sans-serif;
+  }
+
+  body {
+    background: linear-gradient(180deg, #0A1D56 0%, #1E3A8A 100%);
+    color: #fff;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display:flex;
+    flex-direction:column;
+    position: relative;
+  }
+
+  canvas#emojiCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  header { text-align:center; padding:40px 20px; }
+
+  header h1 {
+    font-size:2.3em;
+    text-shadow: 2px 2px 5px #E60023, -2px -2px 5px #1E3A8A;
+  }
+
+  h2 {
+    font-size:2.2em;
+    margin-bottom:30px;
+    text-shadow:2px 2px 6px rgba(0,0,0,0.5);
+    animation:fadeIn 1s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity:0; transform:translateY(20px);}
+    to { opacity:1; transform:translateY(0);}
+  }
+
+  nav {
+    background-color: #E60023;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 12px 0;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  }
+
+  nav ul { list-style:none; display:flex; flex-wrap:wrap; justify-content:center; }
+  nav ul li { margin:6px; }
+  nav ul li a {
+    display:block;
+    color:#fff;
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:25px;
+    font-weight:bold;
+    transition:all 0.3s ease;
+  }
+  nav ul li a:hover {
+    background-color:#000;
+    color:#E60023;
+    transform:translateY(-2px);
+  }
+
+  .page-title {
+    text-align: center;
+    margin: 25px 0;
+    font-size: 2em;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 5px #E60023, -2px -2px 5px #1E3A8A;
+  }
+
+  main {
+    flex:1;
+    padding:40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .slideshow-container {
+    display:flex;
+    overflow:hidden;
+    width:100%;
+    max-width:1200px;
+    margin:20px auto;
+    gap:15px;
+    position:relative;
+  }
+
+  .slide-track { display:flex; animation: scroll 60s linear infinite; }
+  .slide {
+    min-width: 220px;
+    height: 150px;
+    margin-right:15px;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,0.5);
+    flex-shrink:0;
+    cursor:pointer;
+    transition: transform 0.5s;
+  }
+  .slide img { width:100%; height:100%; object-fit:cover; transition: transform 0.5s; }
+  .slide:hover img { transform: scale(1.05); }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .lightbox {
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.9);
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
+    cursor:pointer;
+  }
+  .lightbox img {
+    max-width:90%;
+    max-height:90%;
+    border-radius:15px;
+    box-shadow:0 0 20px #fff, 0 0 40px rgba(230,0,35,0.6);
+  }
+
+  .timeline-section {
+    width:100%;
+    max-width:1000px;
+    margin:80px auto 40px;
+    position:relative;
+  }
+  .timeline-section h2 {
+    text-align:center;
+    font-size:1.8em;
+    margin-bottom:50px;
+    color:#fff;
+    text-shadow:2px 2px 6px rgba(0,0,0,0.5);
+  }
+  .timeline {
+    position:relative;
+    margin:0 auto;
+    padding:20px 0;
+  }
+  .timeline::before {
+    content:''; position:absolute; left:50%; top:0;
+    width:4px; height:100%; background:#E60023;
+    transform:translateX(-50%);
+  }
+  .timeline-item { position:relative; width:50%; padding:20px 40px; }
+  .timeline-item:nth-child(odd){ left:0; text-align:right; }
+  .timeline-item:nth-child(even){ left:50%; text-align:left; }
+  .timeline-item img {
+    width:100%; max-width:400px; border-radius:15px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.5);
+    transition: transform 0.4s;
+  }
+  .timeline-item img:hover { transform:scale(1.05); }
+  .timeline-item p { margin-top:10px; font-size:1em; color:#ddd; }
+  .timeline-dot {
+    position:absolute; top:30px; left:50%;
+    width:20px; height:20px; background:#E60023;
+    border-radius:50%; transform:translateX(-50%);
+    box-shadow:0 0 10px rgba(230,0,35,0.8);
+  }
+
+  .block-gallery {
+    width:100%;
+    max-width:1200px;
+    margin:80px auto 60px;
+    text-align:center;
+  }
+  .block-gallery h2 {
+    font-size:1.8em;
+    margin-bottom:30px;
+    text-shadow:2px 2px 6px rgba(0,0,0,0.5);
+  }
+  .block-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap:20px;
+    padding:0 20px;
+  }
+  .block-item {
+    position:relative;
+    overflow:hidden;
+    border-radius:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.5);
+    cursor:pointer;
+  }
+  .block-item img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:transform 0.5s, opacity 0.5s;
+  }
+  .block-item:hover img { transform:scale(1.05); opacity:0.9; }
+
+  .music-btn {
+    position: fixed; 
+    bottom: 25px; 
+    right: 25px;
+    background-color: #E60023; 
+    border: none; 
+    border-radius: 50%;
+    width: 60px; 
+    height: 60px; 
+    color: white; 
+    font-size: 26px;
+    cursor: pointer; 
+    box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    transition: transform 0.3s ease; 
+    z-index: 999;
+  }
+  .music-btn:hover { transform: scale(1.1); }
+
+  @media (max-width:768px) {
+    .slide { min-width: 180px; height: 120px; }
+    .timeline::before { left:10px; }
+    .timeline-item { width:100%; padding-left:50px; text-align:left !important; }
+    .timeline-item:nth-child(odd),
+    .timeline-item:nth-child(even) { left:0; }
+    .timeline-dot { left:10px; transform:none; }
+  }
+
+  /* ===== FOOTER NEW STYLE ===== */
+  footer {
+    background-color: #000000;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-top: 3px solid #E60023;
+  }
+  footer span { color:white; }
+  #liveTime { color:#E60023; margin-top:10px; font-weight:bold; }
+
+</style>
+</head>
+<body>
+
+<canvas id="emojiCanvas"></canvas>
+
+<header><h1>MAD PERSONAL WEBSITE</h1></header>
+
+<nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="aboutme.html">About Me</a></li>
+    <li><a href="family.html">Family</a></li>
+    <li><a href="experience.html">Experience</a></li>
+    <li><a href="education.html">Education</a></li>
+    <li><a href="friends.html">Friends</a></li>
+    <li><a href="gallery.html" class="active">Gallery</a></li>
+  </ul>
+</nav>
+
+<div class="page-title">Gallery</div>
+
+<main>
+  <h2>My Memories in Pictures 📸</h2>
+
+  <div class="slideshow-container">
+    <div class="slide-track">
+      <!-- your images unchanged -->
+      <div class="slide"><img src="images/g1.jpg"></div>
+      <div class="slide"><img src="images/g2.jpg"></div>
+      <div class="slide"><img src="images/g3.jpg"></div>
+      <div class="slide"><img src="images/g4.jpg"></div>
+      <div class="slide"><img src="images/g5.jpg"></div>
+      <div class="slide"><img src="images/g6.jpg"></div>
+      <div class="slide"><img src="images/g7.jpg"></div>
+      <div class="slide"><img src="images/g8.jpg"></div>
+      <div class="slide"><img src="images/g9.jpg"></div>
+      <div class="slide"><img src="images/g10.jpg"></div>
+      <div class="slide"><img src="images/g11.jpg"></div>
+      <div class="slide"><img src="images/g12.jpg"></div>
+      <div class="slide"><img src="images/g13.jpg"></div>
+      <div class="slide"><img src="images/g14.jpg"></div>
+      <div class="slide"><img src="images/g15.jpg"></div>
+    </div>
+  </div>
+
+  <section class="timeline-section">
+    <h2>Memories w ibuku 🕰️</h2>
+    <div class="timeline">
+
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby1.jpg"><p>Travel W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby2.jpg"><p>Shopping W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby3.jpg"><p>Eid al-Adha 2024 W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby4.jpg"><p>Food Hunting W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby5.jpg"><p>Eid al-Fitr 2024 W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby6.jpg"><p>Go Out W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby7.jpg"><p>Eid al-Adha 2025 W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby8.jpg"><p>Last Teraweh 2025 W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby9.jpg"><p>Go Cinema W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby10.jpg"><p>Attend Any Events W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby11.jpg"><p>Take The Award W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby12.jpg"><p>Random Photos W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby13.jpg"><p>Swimming W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby14.jpg"><p>Eid al-Fitr 2025 W Ibu</p></div>
+      <div class="timeline-item"><span class="timeline-dot"></span><img src="images/ibuaby15.jpg"><p>Go Subway Every Weekend W Ibu</p></div>
+
+    </div>
+
+    <div class="tiktok-video" style="text-align:center; margin:40px 0;">
+      <h3 style="color:#fff; margin-bottom:20px;">Watch this TikTok 🎥</h3>
+      <video controls style="width:640px; height:360px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.5);">
+        <source src="videos/mytiktok.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+  </section>
+
+  <section class="block-gallery">
+    <h2>My Sunshine 🌟</h2>
+    <div class="block-grid">
+      <div class="block-item"><img src="images/aidy1.jpg" alt=""></div>
+      <div class="block-item"><img src="images/ayla1.jpg" alt=""></div>
+      <div class="block-item"><img src="images/aidy2.jpg" alt=""></div>
+      <div class="block-item"><img src="images/ayla2.jpg" alt=""></div>
+      <div class="block-item"><img src="images/aidy3.jpg" alt=""></div>
+      <div class="block-item"><img src="images/ayla3.jpg" alt=""></div>
+      <div class="block-item"><img src="images/aidy4.jpg" alt=""></div>
+      <div class="block-item"><img src="images/ayla4.jpg" alt=""></div>
+      <div class="block-item"><img src="images/aidy5.jpg" alt=""></div>
+      <div class="block-item"><img src="images/ayla5.jpg" alt=""></div>
+      <div class="block-item"><img src="images/aidy6.jpg" alt=""></div>
+      <div class="block-item"><img src="images/ayla6.jpg" alt=""></div>
+    </div>
+  </section>
+</main>
+
+<div class="lightbox" id="lightbox"><img id="lightbox-img" alt=""></div>
+
+<button class="music-btn" id="musicBtn">🎵</button>
+<audio id="bgMusic" src="song3.mp3"></audio>
+
+<footer>
+  © 2025 | Designed by <span>Ahmad Nadzrin Nadzriman</span> 🕸
+  <div id="liveTime"></div>
+</footer>
+
+<script>
+  /* LIGHTBOX */
+  const allImages = document.querySelectorAll('.slide img, .timeline-item img, .block-item img');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  allImages.forEach(img => img.addEventListener('click', ()=>{
+    lightbox.style.display='flex';
+    lightboxImg.src=img.src;
+  }));
+  lightbox.addEventListener('click', ()=> lightbox.style.display='none');
+
+  /* EMOJI BACKGROUND */
+  const canvas = document.getElementById('emojiCanvas');
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  class Emoji {
+    constructor(){
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.size = Math.random() * 15 + 8;
+      this.emoji = '🕸️';
+      this.color = 'white';
+      const angle = Math.random() * 2 * Math.PI;
+      this.dx = Math.cos(angle) * (Math.random()*0.2 + 0.05);
+      this.dy = Math.sin(angle) * (Math.random()*0.2 + 0.05);
+    }
+    draw(){
+      ctx.font = `${this.size}px serif`;
+      ctx.fillStyle = this.color;
+      ctx.fillText(this.emoji, this.x, this.y);
+    }
+    update(){
+      this.x += this.dx;
+      this.y += this.dy;
+
+      if(this.x > width) this.x = 0;
+      if(this.x < 0) this.x = width;
+      if(this.y > height) this.y = 0;
+      if(this.y < 0) this.y = height;
+
+      this.draw();
+    }
+  }
+
+  const emojis = [];
+  for(let i = 0; i < 80; i++){
+    emojis.push(new Emoji());
+  }
+
+  function animate(){
+    ctx.clearRect(0,0,width,height);
+    emojis.forEach(e => e.update());
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  window.addEventListener('resize', ()=>{
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  /* MUSIC BUTTON */
+  const musicBtn = document.getElementById('musicBtn');
+  const bgMusic = document.getElementById('bgMusic');
+  let playing = false;
+
+  musicBtn.addEventListener('click', ()=>{
+    if(!playing){
+      bgMusic.play();
+      playing = true;
+      musicBtn.textContent = '⏸️';
+    } else {
+      bgMusic.pause();
+      playing = false;
+      musicBtn.textContent = '🎵';
+    }
+  });
+
+  /* LIVE DATE & TIME */
+  function updateDateTime() {
+    const now = new Date();
+    const formatted = now.toLocaleString("en-US", {
+      dateStyle: "full",
+      timeStyle: "medium",
+    });
+    document.getElementById("liveTime").innerText = formatted;
+  }
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
+
+</script>
+
+</body>
+</html>
