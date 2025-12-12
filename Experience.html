@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experience | Ahmad Nadzrin</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+   font-family:'Montserrat', sans-serif; 
+  background: linear-gradient(180deg,#0A1D56 0%,#1E3A8A 100%);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+
+canvas#emojiCanvas {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-1;
+  pointer-events:none;
+}
+
+ header {
+    text-align: center;
+    padding: 40px 20px;
+    color: white;
+  }
+
+header h1 {
+    font-size:2.3em;
+    text-shadow: 2px 2px 5px #E60023, -2px -2px 5px #1E3A8A;
+  }
+
+h2 {
+    font-size:2.2em;
+    margin-bottom:30px;
+    text-shadow:2px 2px 6px rgba(0,0,0,0.5);
+    animation:fadeIn 1s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity:0; transform:translateY(20px);}
+    to { opacity:1; transform:translateY(0);}
+  }
+
+nav {
+  background-color:#E60023; display:flex; justify-content:center; flex-wrap:wrap;
+  padding:12px 0; border-radius:0 0 20px 20px; box-shadow:0 4px 10px rgba(0,0,0,0.4); z-index:10; position:relative;
+}
+nav ul { list-style:none; display:flex; flex-wrap:wrap; justify-content:center; }
+nav ul li { margin:6px; }
+nav ul li a { display:block; color:#fff; text-decoration:none; padding:10px 18px; border-radius:25px; font-weight:bold; transition:all 0.3s ease; }
+nav ul li a:hover { background-color:#000; color:#E60023; transform:translateY(-2px); }
+
+main { flex:1; text-align:center; padding:50px 20px; z-index:10; position:relative; }
+main p { font-size:1.1em; margin-bottom:40px; max-width:800px; margin-left:auto; margin-right:auto; }
+
+.timeline { position:relative; max-width:900px; margin:auto; }
+.timeline::after { content:''; position:absolute; width:4px; background-color:white; top:0; bottom:0; left:50%; margin-left:-2px; }
+.timeline-item { padding:20px 40px; position:relative; width:50%; }
+.timeline-item.left { left:0; }
+.timeline-item.right { left:50%; }
+.timeline-item::after { content:''; position:absolute; width:20px; height:20px; top:20px; background-color:white; border-radius:50%; border:4px solid #0A1D56; }
+.timeline-item.left::after { right:-10px; }
+.timeline-item.right::after { left:-10px; }
+.timeline-content { padding:20px; background-color:rgba(0,0,0,0.3); border-radius:10px; text-align:left; }
+.timeline-content img { width:120px; height:120px; border-radius:50%; object-fit:cover; margin-bottom:10px; }
+.timeline-content h3 { margin-bottom:10px; font-size:1.3em; }
+.timeline-content p { font-size:1em; line-height:1.4; }
+
+/* Table Styles */
+table {
+  width: 90%;
+  margin: 50px auto;
+  border-collapse: collapse;
+  background-color: rgba(0,0,0,0.3);
+  color: #fff;
+}
+table th, table td {
+  border: 1px solid #fff;
+  padding: 12px 15px;
+  text-align: center;
+}
+table th {
+  background-color: #E60023;
+  color: #fff;
+  font-weight: 600;
+}
+table tr:nth-child(even) {
+  background-color: rgba(255,255,255,0.1);
+}
+
+footer { background-color:#000; color:#fff; text-align:center; padding:20px; font-weight:bold; letter-spacing:1px; border-top:3px solid #E60023; z-index:10; position:relative; }
+footer span { color:#fff; }
+#liveTime { color:red; margin-top:5px; display:block; }
+
+@media (max-width:768px) {
+  .timeline-item { width:100%; padding-left:70px; padding-right:25px; margin-bottom:40px; }
+  .timeline-item.right { left:0; }
+  .timeline-item::after { left:30px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="emojiCanvas"></canvas>
+
+<header>
+  <h1>MAD PERSONAL WEBSITE</h1>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="aboutme.html">About Me</a></li>
+    <li><a href="family.html">Family</a></li>
+    <li><a href="experience.html">Experience</a></li>
+    <li><a href="education.html">Education</a></li>
+    <li><a href="friends.html">Friends</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h2>My Experiences</h2>
+  <p>My journey so far has been full of experiences that challenged me, taught me important lessons, and helped me grow in many ways. Here are some of the highlights of what I have done : </p>
+
+  <div class="timeline">
+    <div class="timeline-item left">
+      <div class="timeline-content">
+        <img src="images/hiking.jpg" alt="Hiking">
+        <h3>Hiking</h3>
+        <p>This is a hiking trip I did with my housemates at Bukit Keluang. We were very excited and started our journey at 4 a.m. After performing the Subuh prayer, we began our climb to reach the peak in time to watch the sunrise. We arrived safely and were greeted with a calm and beautiful view from the top.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item right">
+      <div class="timeline-content">
+        <img src="images/rockclimbing.jpg" alt="Adventure">
+        <h3>Adventure Activities</h3>
+        <p>This is my rock climbing experience at Gua Musang in Muse EcoPark. It pushed me out of my comfort zone because I had to climb a hill and face my fear of heights. I kept going until I reached the topand finally i tried the flying fox. This was a very valuable experience and i truly enjoyed every moment of it.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item left">
+      <div class="timeline-content">
+        <img src="images/parttime.jpg" alt="Part-Time Work">
+        <h3>Part-Time Job</h3>
+        <p>During the semester 3 break, I started working part-time at a Thai restaurant called Padi Restaurant. This gave me a valuable experience as i learned the true meaning of earning money through hard work. Even during the fasting month, I managed to get through the work and adapt despite facing a language barrier with the other staff who were from Thailand.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item right">
+      <div class="timeline-content">
+        <img src="images/arkib.jpg" alt="Internship">
+        <h3>Internship</h3>
+        <p>As part of our Semester 5 course for the Diploma in Information Management, we were required to complete a two-month internship during the Semester 4 break. During this internship, we took on responsibilities similar to regular staff. I completed my practical training at the National Archives of Malaysia, Kelantan branch. This experience taught me many lessons and gave me understanding that I had only learned from notes before, allowing me to apply knowledge in a real, practical environment and learn more deeply.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Goals Table Added -->
+  <h2>My Goals</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Goal</th>
+        <th>Description</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Learn Python</td>
+        <td>Complete an online course and build small projects</td>
+        <td>Not Yet</td>
+      </tr>
+      <tr>
+        <td>Travel to Japan</td>
+        <td>Visit Tokyo, Kyoto, and Osaka during winter</td>
+        <td>Not Yet</td>
+      </tr>
+      <tr>
+        <td>Start a Blog</td>
+        <td>Share personal experiences and tutorials online</td>
+        <td>Ongoing</td>
+      </tr>
+      <tr>
+        <td>Learn Photography</td>
+        <td>Take a course and practice landscape and portrait photography</td>
+        <td>Soon</td>
+      </tr>
+      <tr>
+        <td>Run a Half-Marathon</td>
+        <td>Train consistently and participate in a local half-marathon</td>
+        <td>Soon</td>
+      </tr>
+      <tr>
+        <td>Read 50 Books</td>
+        <td>Finish reading a mix of fiction and non-fiction books</td>
+        <td>Not Yet</td>
+      </tr>
+      <tr>
+        <td>Learn Web Development</td>
+        <td>Master HTML, CSS, JavaScript and build personal projects</td>
+        <td>Ongoing</td>
+      </tr>
+      <tr>
+        <td>Volunteer Work</td>
+        <td>Participate in community service activities at least twice a month</td>
+        <td>Soon</td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+
+<footer>
+  © 2025 | Designed by <span>Ahmad Nadzrin Nadzriman</span> 🕸
+  <div id="liveTime"></div>
+</footer>
+
+<script>
+const canvas = document.getElementById('emojiCanvas');
+const ctx = canvas.getContext('2d');
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
+
+class Emoji {
+  constructor(){
+    this.x = Math.random()*width;
+    this.y = Math.random()*height;
+    this.size = Math.random()*15 + 8; 
+    this.emoji = '🕸️';
+    this.color = Math.random() > 0.5 ? 'white' : 'black';
+    const angle = Math.random()*2*Math.PI;
+    this.dx = Math.cos(angle)*(Math.random()*0.2 + 0.05);
+    this.dy = Math.sin(angle)*(Math.random()*0.2 + 0.05);
+  }
+  draw(){
+    ctx.font = `${this.size}px serif`;
+    ctx.fillStyle = this.color;
+    ctx.fillText(this.emoji, this.x, this.y);
+  }
+  update(){
+    this.x += this.dx;
+    this.y += this.dy;
+    if(this.x > width) this.x = 0;
+    if(this.x < 0) this.x = width;
+    if(this.y > height) this.y = 0;
+    if(this.y < 0) this.y = height;
+    this.draw();
+  }
+}
+
+const emojis = [];
+for(let i=0;i<80;i++){
+  emojis.push(new Emoji());
+}
+
+function animate(){
+  ctx.clearRect(0,0,width,height);
+  emojis.forEach(e => e.update());
+  requestAnimationFrame(animate);
+}
+animate();
+
+window.addEventListener('resize', ()=>{ 
+  width = canvas.width = window.innerWidth; 
+  height = canvas.height = window.innerHeight; 
+});
+
+// ========== LIVE DATE/TIME ==========
+function updateDateTime() {
+  const now = new Date();
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: true
+  };
+  const formatted = now.toLocaleString('en-US', options);
+  document.getElementById("liveTime").innerText = formatted;
+}
+setInterval(updateDateTime, 1000);
+updateDateTime();
+</script>
+
+</body>
+</html>

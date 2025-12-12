@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me | Ahmad Nadzrin</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  * {
+    margin:0; 
+    padding:0; 
+    box-sizing:border-box; 
+    font-family:'Montserrat', sans-serif; 
+  }
+
+  body {
+    background: linear-gradient(180deg, #0A1D56 0%, #1E3A8A 100%);
+    color: #FFFFFF;
+    scroll-behavior: smooth;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  canvas#emojiCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+    pointer-events: none;
+  }
+
+  header {
+    text-align: center;
+    padding: 40px 20px;
+    color: white;
+  }
+
+  header h1 {
+    font-size:2.3em;
+    text-shadow: 2px 2px 5px #E60023, -2px -2px 5px #1E3A8A;
+  }
+
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 12px 0;
+    background-color: #E60023;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  }
+
+  nav ul li { margin: 6px; }
+  nav ul li a {
+    display: block;
+    color: white;
+    padding: 10px 18px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+  }
+  nav ul li a:hover {
+    background-color: #000;
+    color: #E60023;
+    transform: translateY(-2px);
+  }
+
+  .page-title {
+    text-align: center;
+    margin: 25px 0;
+    font-size: 2.5em; 
+    font-weight: bold;
+    color: #fff8a;
+    text-shadow: 2px 2px 8px #E60023, -2px -2px 8px #1E3A8A;
+  }
+
+  main {
+    padding: 50px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    position: relative;
+    z-index: 1;
+    text-align: center; 
+  }
+
+  .section {
+    display: flex;
+    flex-direction: row;
+    background: rgba(0,0,0,0.35);
+    border-radius: 20px;
+    max-width: 850px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+
+  .section:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: rgba(230,0,35,0.5);
+    border-radius: 1px;
+  }
+
+  .section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+  }
+
+  .section:nth-child(even) { flex-direction: row-reverse; }
+
+  .section-img {
+    width: 140px;
+    height: 140px;
+    clip-path: polygon(
+      50% 0%, 55% 10%, 65% 10%, 70% 0%, 75% 10%, 85% 10%, 90% 0%, 
+      95% 10%, 100% 15%, 95% 25%, 100% 35%, 90% 40%, 95% 50%, 90% 60%, 
+      95% 70%, 100% 75%, 90% 90%, 75% 90%, 65% 100%, 55% 90%, 50% 100%, 
+      45% 90%, 35% 100%, 25% 90%, 10% 90%, 0% 75%, 5% 70%, 0% 60%, 5% 50%, 
+      0% 40%, 10% 35%, 5% 25%, 0% 15%, 5% 10%, 10% 0%, 25% 0%, 35% 10%, 45% 10%
+    );
+    border: 4px solid #E60023;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    transition: transform 0.3s;
+  }
+
+  .section-text { 
+    flex: 1; 
+    font-size: 18px; 
+    line-height:1.8; 
+    color: #F0F0F0; 
+    text-align: left;
+  }
+
+ h2 {
+    font-size:2.2em;
+    margin-bottom:30px;
+    text-shadow:2px 2px 6px rgba(0,0,0,0.5);
+    animation:fadeIn 1s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity:0; transform:translateY(20px);}
+    to { opacity:1; transform:translateY(0);}
+  }
+
+  ul { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 6px; position: relative; padding-left: 20px; }
+  li::before { content: '★'; position: absolute; left: 0; color: #E60023; }
+
+  footer {
+    background-color: #000000;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-top: 3px solid #E60023;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer span {
+    color: #FFFFFF;
+  }
+
+  #liveTime {
+    color: #E60023;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .section { flex-direction: column; text-align: center; }
+    .section:nth-child(even) { flex-direction: column; }
+    .section-img { width: 110px; height: 110px; margin-bottom: 15px; }
+    .section:not(:last-child)::after { width: 80%; left: 10%; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="emojiCanvas"></canvas>
+
+<header>
+  <h1>MAD PERSONAL WEBSITE</h1>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="aboutme.html">About Me</a></li>
+    <li><a href="family.html">Family</a></li>
+    <li><a href="experience.html">Experience</a></li>
+    <li><a href="education.html">Education</a></li>
+    <li><a href="friends.html">Friends</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+  </ul>
+</nav>
+
+<div class="page-title">About Me</div>
+
+<main>
+  <!-- Section 1: Introduction -->
+  <div class="section">
+    <img src="images/mad1.jpg" alt="Profile Picture" class="section-img">
+    <div class="section-text">
+      <h2>Hello Gaisss ! 👋</h2>
+      <p>My name is <b>Ahmad Nadzrin bin Nadzriman</b>, and I am <i>20 years old</i>. 
+      I was born on <b>July 10, 2005</b>, at <u>Hospital Raja Perempuan Zainab Kota Bharu, Kelantan</u>. 
+      I am the youngest child in my family and the only son, with two older sisters.</p>
+    </div>
+  </div>
+
+  <!-- Section 2: Personality -->
+  <div class="section">
+    <img src="images/mad2.jpg" alt="Personality" class="section-img">
+    <div class="section-text">
+      <h2>Personality & Values</h2>
+      <ul>
+        <li><i>Extrovert</i> if someone give same energy</li>
+        <li>Value <b>quality over quantity</b> in friendships</li>
+        <li><u>Positive mindset</u> & continuous learning</li>
+        <li>Firm and Disciplined</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 3: Life Story / Timeline -->
+  <div class="section">
+    <img src="images/mad3.jpg" alt="Life Story" class="section-img">
+    <div class="section-text">
+      <h2>Life Story</h2>
+      <p>I am the youngest child in my family and I am very close to my mother. 
+      She is the person I love the most, and I am very afraid of losing her one day. 
+      I have always been a little <i>spoiled</i>, but only with people who are truly close to me 
+      and whom I trust deeply. During my primary and lower secondary school years, 
+      I did not focus much on my studies because I spent more time enjoying myself 
+      and playing with my friends. However, when I entered <u>upper secondary school</u>, 
+      I began to change. I started to work harder and take my studies more seriously. 
+      <b>Alhamdulillah</b>, all my effort was worth it, and I am proud of the progress 
+      and good results that I have achieved until today.</p>
+    </div>
+  </div>
+
+  <!-- Section 4: Favourite Things -->
+  <div class="section">
+    <img src="images/mad4.jpg" alt="Favourite Things" class="section-img">
+    <div class="section-text">
+      <h2>Favourite Things</h2>
+      <ul>
+        <li>Colour: Red, White & Black</li>
+        <li>Music: <i>Any Galau Song</i></li>
+        <li>Food: Nasi Ayam Gepuk & <i>Indian Curry</i></li>
+        <li>Fun Activities: Love <i>Extreme Activities</i> & Nature</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 5: Fun Facts -->
+  <div class="section">
+    <img src="images/mad5.jpg" alt="Fun Facts" class="section-img">
+    <div class="section-text">
+      <h2>Fun Facts</h2>
+      <ul>
+        <li><b>Love Spicy Food</b> So Bad</li>
+        <li>Collect All <u>Spiderman Figures</u></li>
+        <li>Love Having <i>Deeptalk</i> w Friends</li>
+        <li>Love Watching Kdrama & <i>Cdrama</i></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 6: Future Goals -->
+  <div class="section">
+    <img src="images/mad6.jpg" alt="Goals" class="section-img">
+    <div class="section-text">
+      <h2>Future Goals</h2>
+      <p>My biggest dream is to <b>bring my mother to Mecca</b> when I become successful one day. 
+      I really want her to go there because she has always prayed for my happiness and success. 
+      I also hope to buy her some <i>gold</i>, because every night she watches gold live shows on TikTok, 
+      and I can see how much she likes it. In my own life, I want to become a successful person with a 
+      good and stable career. My dream job is to be a <b>lecturer</b> or a <b>data analyst</b> because 
+      I enjoy learning new things and sharing knowledge with others. More than anything, I just want to 
+      make my mother proud and give her the happy life she deserves.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2025 | Designed by <span>Ahmad Nadzrin Nadzriman</span> 🕸
+  <div id="liveTime"></div>
+</footer>
+
+<script>
+const canvas = document.getElementById('emojiCanvas');
+const ctx = canvas.getContext('2d');
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
+
+class Emoji {
+  constructor(){
+    this.x = Math.random()*width;
+    this.y = Math.random()*height;
+    this.size = Math.random()*15 + 8; 
+    this.emoji = '🕸️';
+    this.color = Math.random() > 0.5 ? 'white' : 'black';
+    const angle = Math.random()*2*Math.PI;
+    this.dx = Math.cos(angle)*(Math.random()*0.2 + 0.05);
+    this.dy = Math.sin(angle)*(Math.random()*0.2 + 0.05);
+  }
+  draw(){
+    ctx.font = `${this.size}px serif`;
+    ctx.fillStyle = this.color;
+    ctx.fillText(this.emoji, this.x, this.y);
+  }
+  update(){
+    this.x += this.dx;
+    this.y += this.dy;
+    if(this.x > width) this.x = 0;
+    if(this.x < 0) this.x = width;
+    if(this.y > height) this.y = 0;
+    if(this.y < 0) this.y = height;
+    this.draw();
+  }
+}
+
+const emojis = [];
+for(let i=0;i<80;i++){
+  emojis.push(new Emoji());
+}
+
+function animate(){
+  ctx.clearRect(0,0,width,height);
+  emojis.forEach(e => e.update());
+  requestAnimationFrame(animate);
+}
+animate();
+
+window.addEventListener('resize', ()=>{ 
+  width = canvas.width = window.innerWidth; 
+  height = canvas.height = window.innerHeight; 
+});
+
+// ========== LIVE DATE/TIME ==========
+function updateDateTime() {
+  const now = new Date();
+  const formatted = now.toLocaleString("en-US", {
+    dateStyle: "full",
+    timeStyle: "medium",
+  });
+  document.getElementById("liveTime").innerText = formatted;
+}
+setInterval(updateDateTime, 1000);
+updateDateTime();
+</script>
+
+</body>
+</html>
